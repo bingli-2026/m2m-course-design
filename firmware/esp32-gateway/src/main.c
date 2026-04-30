@@ -21,10 +21,10 @@
 
 static const char *TAG = "gateway";
 
-#define WIFI_SSID "REPLACE_WITH_WIFI_SSID"
-#define WIFI_PASS "REPLACE_WITH_WIFI_PASS"
+#define WIFI_SSID "davisarch"
+#define WIFI_PASS "davis2002"
 #ifndef MQTT_BROKER_URI
-#define MQTT_BROKER_URI "mqtt://REPLACE_WITH_BROKER_HOST:1883"
+#define MQTT_BROKER_URI "mqtt://10.42.0.1:1883"
 #endif
 #define MQTT_UP_HEARTBEAT_TOPIC "m2m/up/heartbeat"
 #define MQTT_UP_TELEMETRY_TOPIC "m2m/up/telemetry"
