@@ -10,15 +10,19 @@ from pydantic import BaseModel, Field
 
 from app.mqtt_bridge import MqttBridge
 from app.state_store import InMemoryStateStore
+from app.demo_simulator import DemoSimulator
 
 state_store = InMemoryStateStore()
 mqtt_bridge = MqttBridge(state_store)
+demo_sim = DemoSimulator(state_store)
 
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     mqtt_bridge.start()
+    demo_sim.start()
     yield
+    demo_sim.stop()
     mqtt_bridge.stop()
 
 
