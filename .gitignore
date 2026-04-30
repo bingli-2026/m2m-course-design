@@ -22,3 +22,7 @@ code/.venv-pio/
 
 *.pdf
 *.tmp
+*.db
+*.log
+*.bak
+.run/

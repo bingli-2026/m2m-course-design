@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>M2M Demo Mode</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#faf8ff",
+                        "primary-fixed-dim": "#b3c5ff",
+                        "tertiary": "#a33200",
+                        "tertiary-fixed": "#ffdbd0",
+                        "on-primary-fixed": "#001849",
+                        "surface-container": "#ecedfa",
+                        "secondary-container": "#d0e1fb",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-primary-container": "#f8f7ff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#eff0fd",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb59d",
+                        "primary": "#0050cb",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#f2f3ff",
+                        "on-tertiary-container": "#fff6f4",
+                        "surface-container-high": "#e6e7f4",
+                        "primary-container": "#0066ff",
+                        "background": "#faf8ff",
+                        "on-secondary-fixed": "#0b1c30",
+                        "inverse-surface": "#2e303a",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#003fa4",
+                        "surface-dim": "#d8d9e6",
+                        "on-surface-variant": "#424656",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#505f76",
+                        "inverse-primary": "#b3c5ff",
+                        "on-surface": "#191b24",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-tertiary-fixed": "#390c00",
+                        "outline": "#727687",
+                        "primary-fixed": "#dae1ff",
+                        "surface-tint": "#0054d6",
+                        "surface": "#faf8ff",
+                        "on-secondary-container": "#54647a",
+                        "surface-variant": "#e1e2ee",
+                        "tertiary-container": "#cc4204",
+                        "on-tertiary-fixed-variant": "#832600",
+                        "surface-container-highest": "#e1e2ee",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-background": "#191b24",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#c2c6d8",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "xs": "4px",
+                        "base": "4px",
+                        "gutter": "20px",
+                        "lg": "24px",
+                        "sm": "8px",
+                        "margin": "24px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "status-label": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-data": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "status-label": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-data": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md m-0 p-0 overflow-x-hidden min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="bg-surface-bright border-r border-outline-variant fixed left-0 top-0 h-screen w-64 z-[60] flex flex-col py-6 space-y-1">
+<div class="px-4 mb-8">
+<h1 class="text-xl font-bold text-primary font-headline-sm text-headline-sm uppercase tracking-wider">M2M_COMMAND</h1>
+<p class="font-status-label text-status-label text-secondary mt-1">System_Status: Optimal</p>
+</div>
+<div class="flex flex-col flex-grow">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="settings_remote">settings_remote</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Control</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary hover:bg-surface-container transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="list_alt">list_alt</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Events</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary bg-surface-container border-r-4 border-primary" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="play_circle">play_circle</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Demo Mode</span>
+</a>
+</div>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary text-on-primary font-label-caps text-label-caps uppercase tracking-widest py-3 rounded-DEFAULT hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="stop_circle">stop_circle</span>
+                Emergency Stop
+            </button>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="ml-64 flex-1 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-surface-bright border-b border-outline-variant docked full-width top-0 z-50 flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<span class="text-lg font-black text-on-background uppercase tracking-wider font-headline-sm text-headline-sm">M2M_CONTROL_SYS</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[20px]" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-DEFAULT focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body-md text-body-md text-on-background w-64 transition-all" placeholder="Search..." type="text"/>
+</div>
+<button class="text-secondary hover:bg-surface-container p-2 rounded-full transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-secondary hover:bg-surface-container p-2 rounded-full transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<img alt="Administrator" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="A small circular avatar showing a professional looking person in a modern bright setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQI5nou21dsUM_lcXDLx6-MZApG5cYdMXCx2ZkK99NRR9HnXdHas_27OvjBJV6jqfqLUuPEuQOqnKXM8lwf2rI3BXOQ5NsN1Qh359rVJf4uZUjuMR2hP1aWmn8auZ-iwnMry9bplGZCAI-ErMQD0MEpgE4beuXhxQJ3xO8ZH9tZX619wvGv7nCyVrS7flOqIizaVRxRE0N8oYJCwIZvmwAgAhhi7yxINccpOczIcfjRnmzmivfi8YzFZeZ21klADxDYruuMaN6fVs"/>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-1 bg-background p-lg overflow-auto flex gap-gutter">
+<!-- Center Canvas: Active Demo Area -->
+<div class="flex-1 flex flex-col gap-gutter">
+<!-- Presentation Header -->
+<div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-DEFAULT">
+<div class="flex justify-between items-start">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-background mb-1">Live Telemetry Simulation</h2>
+<p class="font-body-md text-body-md text-secondary">Demonstrating end-to-end data flow and anomaly detection capabilities.</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary font-status-label text-status-label">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                                DEMO ACTIVE
+                            </span>
+<button class="ml-2 border border-outline-variant text-secondary hover:bg-surface-container font-label-caps text-label-caps uppercase px-4 py-2 rounded-DEFAULT transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="restart_alt">restart_alt</span>
+                                Reset Session
+                            </button>
+</div>
+</div>
+</div>
+<!-- Visualization Area -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-DEFAULT flex-1 min-h-[500px] p-lg flex flex-col">
+<h3 class="font-label-caps text-label-caps text-secondary uppercase tracking-widest mb-6">Data Loop Visualization</h3>
+<div class="flex-1 flex items-center justify-center">
+<div class="relative w-full max-w-4xl flex items-center justify-between">
+<!-- Path 1 -->
+<div class="absolute left-[80px] right-[50%] h-0.5 bg-outline-variant top-1/2 -translate-y-1/2 -z-10">
+<div class="h-full bg-primary w-1/2 animate-[progress_2s_ease-in-out_infinite]"></div>
+</div>
+<!-- Path 2 -->
+<div class="absolute left-[50%] right-[80px] h-0.5 bg-outline-variant top-1/2 -translate-y-1/2 -z-10">
+<div class="h-full bg-primary w-1/4 animate-[progress_2s_ease-in-out_infinite_1s]"></div>
+</div>
+<!-- Terminal -->
+<div class="flex flex-col items-center gap-4 bg-surface-bright p-4 border border-outline-variant rounded-DEFAULT w-40 relative z-10 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-[32px] text-secondary" data-icon="sensors">sensors</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-background uppercase">Terminal</span>
+<div class="font-status-label text-status-label text-secondary text-center">
+                                    TX: 4.2 MB/s<br/>RX: 1.1 MB/s
+                                </div>
+</div>
+<!-- Gateway -->
+<div class="flex flex-col items-center gap-4 bg-surface-bright p-4 border-2 border-primary rounded-DEFAULT w-40 relative z-10 shadow-[0_4px_12px_rgba(0,0,0,0.05)] scale-110">
+<div class="w-20 h-20 rounded-full bg-primary-container/20 flex items-center justify-center border border-primary/30">
+<span class="material-symbols-outlined text-[40px] text-primary" data-icon="router">router</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-background uppercase">Edge Gateway</span>
+<div class="font-status-label text-status-label text-primary text-center">
+                                    Processing Latency<br/>12ms
+                                </div>
+</div>
+<!-- Server -->
+<div class="flex flex-col items-center gap-4 bg-surface-bright p-4 border border-outline-variant rounded-DEFAULT w-40 relative z-10 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-[32px] text-secondary" data-icon="database">database</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-background uppercase">Main Server</span>
+<div class="font-status-label text-status-label text-secondary text-center">
+                                    Ingest: Active<br/>Uptime: 99.9%
+                                </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Step Feedback -->
+<div class="grid grid-cols-4 gap-gutter">
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-DEFAULT">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="check_circle">check_circle</span>
+<span class="font-label-caps text-label-caps uppercase text-on-background">System Check</span>
+</div>
+<div class="font-display-data text-display-data text-on-background">Pass</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-DEFAULT">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="check_circle">check_circle</span>
+<span class="font-label-caps text-label-caps uppercase text-on-background">Data Sampling</span>
+</div>
+<div class="font-display-data text-display-data text-on-background">100%</div>
+</div>
+<div class="bg-surface-container-lowest border border-primary ring-1 ring-primary p-md rounded-DEFAULT shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-[20px] animate-spin" data-icon="sync">sync</span>
+<span class="font-label-caps text-label-caps uppercase text-primary">Control Pulse</span>
+</div>
+<div class="font-display-data text-display-data text-primary">Active</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-DEFAULT opacity-50">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="pending">pending</span>
+<span class="font-label-caps text-label-caps uppercase text-secondary">Anomaly Trigger</span>
+</div>
+<div class="font-display-data text-display-data text-secondary">--</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: Demo Script -->
+<div class="w-80 bg-surface-container-lowest border border-outline-variant rounded-DEFAULT flex flex-col">
+<div class="p-md border-b border-outline-variant bg-surface-bright rounded-t-DEFAULT">
+<h3 class="font-label-caps text-label-caps text-on-background uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="list_alt">list_alt</span>
+                        Demo Script
+                    </h3>
+</div>
+<div class="flex-1 p-md flex flex-col gap-4 overflow-y-auto">
+<!-- Step 1 -->
+<div class="flex gap-4 opacity-50">
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center border border-outline-variant font-label-caps text-label-caps text-secondary">1</div>
+<div class="w-px h-full bg-outline-variant my-1"></div>
+</div>
+<div class="pb-4 flex-1">
+<h4 class="font-headline-sm text-headline-sm text-on-background text-[14px]">System Check</h4>
+<p class="font-body-md text-body-md text-secondary text-[12px] mt-1">Verify terminal connectivity and gateway handshake protocols.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex gap-4 opacity-50">
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center border border-outline-variant font-label-caps text-label-caps text-secondary">2</div>
+<div class="w-px h-full bg-outline-variant my-1"></div>
+</div>
+<div class="pb-4 flex-1">
+<h4 class="font-headline-sm text-headline-sm text-on-background text-[14px]">Data Sampling</h4>
+<p class="font-body-md text-body-md text-secondary text-[12px] mt-1">Initiate high-frequency telemetry data ingestion routine.</p>
+</div>
+</div>
+<!-- Step 3 (Active) -->
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary font-label-caps text-label-caps shadow-[0_0_0_2px_rgba(0,102,255,0.2)]">3</div>
+<div class="w-px h-full bg-outline-variant my-1"></div>
+</div>
+<div class="pb-4 flex-1">
+<h4 class="font-headline-sm text-headline-sm text-primary text-[14px] flex items-center justify-between">
+                                Control Pulse
+                                <button class="bg-primary text-on-primary px-2 py-1 rounded font-status-label text-[10px] uppercase">Execute</button>
+</h4>
+<p class="font-body-md text-body-md text-on-background text-[12px] mt-1">Send reciprocal control commands from Server back to Terminal.</p>
+<div class="mt-3 p-3 bg-surface-container-low border border-outline-variant rounded text-[11px] font-mono text-secondary">
+                                &gt; INIT_PULSE_SEQ<br/>
+                                &gt; AWAITING_ACK...
+                            </div>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="flex gap-4 opacity-50">
+<div class="flex flex-col items-center">
+<div class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center border border-outline-variant font-label-caps text-label-caps text-secondary">4</div>
+</div>
+<div class="pb-4 flex-1">
+<h4 class="font-headline-sm text-headline-sm text-on-background text-[14px]">Anomaly Trigger</h4>
+<p class="font-body-md text-body-md text-secondary text-[12px] mt-1">Simulate edge node failure and observe automatic failover response.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

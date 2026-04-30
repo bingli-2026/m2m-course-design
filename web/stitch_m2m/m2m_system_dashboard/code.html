@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>M2M Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#faf8ff",
+                        "primary-fixed-dim": "#b3c5ff",
+                        "tertiary": "#a33200",
+                        "tertiary-fixed": "#ffdbd0",
+                        "on-primary-fixed": "#001849",
+                        "surface-container": "#ecedfa",
+                        "secondary-container": "#d0e1fb",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-primary-container": "#f8f7ff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#eff0fd",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb59d",
+                        "primary": "#0050cb",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#f2f3ff",
+                        "on-tertiary-container": "#fff6f4",
+                        "surface-container-high": "#e6e7f4",
+                        "primary-container": "#0066ff",
+                        "background": "#faf8ff",
+                        "on-secondary-fixed": "#0b1c30",
+                        "inverse-surface": "#2e303a",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#003fa4",
+                        "surface-dim": "#d8d9e6",
+                        "on-surface-variant": "#424656",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#505f76",
+                        "inverse-primary": "#b3c5ff",
+                        "on-surface": "#191b24",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-tertiary-fixed": "#390c00",
+                        "outline": "#727687",
+                        "primary-fixed": "#dae1ff",
+                        "surface-tint": "#0054d6",
+                        "surface": "#faf8ff",
+                        "on-secondary-container": "#54647a",
+                        "surface-variant": "#e1e2ee",
+                        "tertiary-container": "#cc4204",
+                        "on-tertiary-fixed-variant": "#832600",
+                        "surface-container-highest": "#e1e2ee",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-background": "#191b24",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#c2c6d8",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "xs": "4px",
+                        "base": "4px",
+                        "gutter": "20px",
+                        "lg": "24px",
+                        "sm": "8px",
+                        "margin": "24px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "status-label": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-data": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "status-label": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-data": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #F8FAFC; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-on-surface">
+<!-- SideNavBar -->
+<nav class="bg-slate-50 dark:bg-slate-950 text-blue-600 dark:text-blue-400 font-label-caps text-label-caps tracking-widest fixed left-0 top-0 h-screen w-64 z-[60] border-r border-slate-200 dark:border-slate-800 flex flex-col py-6 space-y-1 h-full w-64">
+<div class="text-xl font-bold text-blue-600 dark:text-blue-400 px-4 mb-8">M2M_COMMAND</div>
+<div class="flex-1">
+<a class="flex items-center gap-3 px-4 py-3 text-blue-600 dark:text-blue-400 bg-white dark:bg-slate-900 border-r-4 border-blue-600 active:bg-slate-300 dark:active:bg-slate-700" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-150 active:bg-slate-300 dark:active:bg-slate-700" href="#">
+<span class="material-symbols-outlined">settings_remote</span>
+                Control
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-150 active:bg-slate-300 dark:active:bg-slate-700" href="#">
+<span class="material-symbols-outlined">list_alt</span>
+                Events
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-150 active:bg-slate-300 dark:active:bg-slate-700" href="#">
+<span class="material-symbols-outlined">play_circle</span>
+                Demo Mode
+            </a>
+</div>
+<div class="px-4 mt-auto">
+<div class="mb-4">
+<div class="font-status-label text-status-label text-slate-500 mb-1">System_Status: Optimal</div>
+</div>
+<button class="w-full py-2 bg-primary text-on-primary font-status-label text-status-label rounded-DEFAULT text-center font-semibold hover:bg-surface-tint transition-colors">Emergency Stop</button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col ml-64 bg-background">
+<!-- TopAppBar -->
+<header class="bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 font-body-md text-body-md font-semibold tracking-tight docked full-width top-0 z-50 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 h-16 w-full">
+<div class="text-lg font-black text-slate-900 dark:text-white uppercase tracking-wider">M2M_CONTROL_SYS</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors duration-200 active:scale-95 transition-transform cursor-pointer p-2 rounded-full">notifications</span>
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors duration-200 active:scale-95 transition-transform cursor-pointer p-2 rounded-full">settings</span>
+<img alt="Administrator" class="w-8 h-8 rounded-full border border-slate-200" data-alt="A small circular profile picture of an administrator, showing a professional headshot in a modern, light-mode technical dashboard environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk63N4U2YQyZtrOJ1nPH0vgNCmod15O0-cjLVr-hp2T_NzgMlYM4_XCFaCb1SyJ0NO60X5vcMQHY66Tj-9IYIc3MiWGU3aU4-09nv-q4CLoIZmVbRSbTlOwz-mTFcjrlZNXrfkpYC_bbzaKmHriRadT8KpFXsHHfxPIIAz9is-XVFZnhdy16x_ozV38gamph7G7IRjFcjublvTe3TwKOfmKn9Mys66hxkONMBhUC-21UqSZqrPYRFcbiE-yr8gtXt4VjdgGY7G6c8"/>
+</div>
+</header>
+<!-- Dashboard Content -->
+<main class="flex-1 overflow-y-auto p-margin">
+<div class="max-w-[1600px] mx-auto space-y-gutter">
+<!-- Top Row: Status Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Terminal-A -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase">Terminal-A</h3>
+<span class="material-symbols-outlined text-outline">router</span>
+</div>
+<div class="flex items-center gap-2 mb-4">
+<div class="w-2 h-2 rounded-full bg-[#10B981]"></div>
+<span class="font-status-label text-status-label text-on-surface">Online</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<div class="font-status-label text-status-label text-outline mb-1">Signal</div>
+<div class="font-display-data text-display-data text-primary">98%</div>
+</div>
+<div>
+<div class="font-status-label text-status-label text-outline mb-1">Last Update</div>
+<div class="font-body-md text-body-md text-on-surface mt-2">2s ago</div>
+</div>
+</div>
+</div>
+<!-- Terminal-B -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase">Terminal-B</h3>
+<span class="material-symbols-outlined text-outline">router</span>
+</div>
+<div class="flex items-center gap-2 mb-4 bg-error-container/20 w-fit px-2 py-1 rounded-DEFAULT">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<span class="font-status-label text-status-label text-error">Warning</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<div class="font-status-label text-status-label text-outline mb-1">Signal</div>
+<div class="font-display-data text-display-data text-error">42%</div>
+</div>
+<div>
+<div class="font-status-label text-status-label text-outline mb-1">Last Update</div>
+<div class="font-body-md text-body-md text-on-surface mt-2">5s ago</div>
+</div>
+</div>
+</div>
+<!-- Gateway -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase">Gateway</h3>
+<span class="material-symbols-outlined text-outline">hub</span>
+</div>
+<div class="flex items-center gap-2 mb-4">
+<div class="w-2 h-2 rounded-full bg-[#10B981]"></div>
+<span class="font-status-label text-status-label text-on-surface">Online</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<div class="font-status-label text-status-label text-outline mb-1">Uptime</div>
+<div class="font-display-data text-display-data text-primary">99.9%</div>
+</div>
+<div>
+<div class="font-status-label text-status-label text-outline mb-1">Last Update</div>
+<div class="font-body-md text-body-md text-on-surface mt-2">1s ago</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Middle Row: Charts -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Data Throughput -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase">Real-time Data Throughput</h3>
+<span class="material-symbols-outlined text-outline">show_chart</span>
+</div>
+<div class="h-64 flex items-end justify-between gap-1 border-b border-surface-variant pb-2 relative">
+<!-- Faux Chart Lines -->
+<div class="w-full h-full absolute inset-0 flex flex-col justify-between pointer-events-none">
+<div class="border-t border-surface-variant/50 w-full"></div>
+<div class="border-t border-surface-variant/50 w-full"></div>
+<div class="border-t border-surface-variant/50 w-full"></div>
+<div class="border-t border-surface-variant/50 w-full"></div>
+</div>
+<!-- Faux Line Chart Path (using SVG) -->
+<svg class="absolute inset-0 h-full w-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path class="text-primary" d="M0,80 Q10,70 20,85 T40,60 T60,75 T80,40 T100,50" fill="none" stroke="currentColor" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<!-- System Latency -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase">System Latency (ms)</h3>
+<span class="material-symbols-outlined text-outline">area_chart</span>
+</div>
+<div class="h-64 flex items-end justify-between gap-1 border-b border-surface-variant pb-2 relative overflow-hidden">
+<!-- Faux Chart Lines -->
+<div class="w-full h-full absolute inset-0 flex flex-col justify-between pointer-events-none">
+<div class="border-t border-surface-variant/50 w-full"></div>
+<div class="border-t border-surface-variant/50 w-full"></div>
+<div class="border-t border-surface-variant/50 w-full"></div>
+<div class="border-t border-surface-variant/50 w-full"></div>
+</div>
+<!-- Faux Area Chart Path (using SVG) -->
+<svg class="absolute inset-0 h-full w-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path class="text-primary/10" d="M0,90 Q10,80 20,85 T40,70 T60,65 T80,50 T100,60 L100,100 L0,100 Z" fill="currentColor"></path>
+<path class="text-primary" d="M0,90 Q10,80 20,85 T40,70 T60,65 T80,50 T100,60" fill="none" stroke="currentColor" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- Bottom Row: Alerts & Health -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Active Alerts -->
+<div class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-lg">
+<div class="p-md border-b border-surface-variant flex justify-between items-center">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase">Active Alerts</h3>
+<div class="w-6 h-6 rounded-full bg-error-container text-error flex items-center justify-center font-status-label text-status-label">1</div>
+</div>
+<div class="p-0">
+<!-- Alert Item -->
+<div class="flex items-center justify-between p-md border-b border-surface-variant hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-error">warning</span>
+<div>
+<div class="font-status-label text-status-label text-on-surface font-semibold mb-1">Terminal-B: Signal Weak</div>
+<div class="font-body-md text-body-md text-outline text-xs">Signal strength dropped below 50% threshold.</div>
+</div>
+</div>
+<button class="px-3 py-1 border border-outline-variant rounded-DEFAULT font-status-label text-status-label text-on-surface hover:border-primary hover:text-primary transition-colors">Acknowledge</button>
+</div>
+<!-- Normal Item -->
+<div class="flex items-center justify-between p-md hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline">info</span>
+<div>
+<div class="font-status-label text-status-label text-on-surface font-semibold mb-1">Gateway: Firmware Update Available</div>
+<div class="font-body-md text-body-md text-outline text-xs">Version 2.4.1 is ready for deployment.</div>
+</div>
+</div>
+<button class="px-3 py-1 border border-outline-variant rounded-DEFAULT font-status-label text-status-label text-on-surface hover:border-primary hover:text-primary transition-colors">Review</button>
+</div>
+</div>
+</div>
+<!-- System Health Score -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg flex flex-col items-center justify-center">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase w-full text-left mb-6">System Health Score</h3>
+<div class="relative w-48 h-48 flex items-center justify-center">
+<!-- SVG Gauge -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle class="text-surface-variant" cx="50" cy="50" fill="none" r="40" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary" cx="50" cy="50" fill="none" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="37.68" stroke-width="8"></circle> <!-- 85% full -->
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-display-data text-display-data text-on-surface">85<span class="text-xl">%</span></span>
+<span class="font-status-label text-status-label text-outline mt-1">Stable</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

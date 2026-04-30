@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>M2M Events &amp; Logs</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#faf8ff",
+                        "primary-fixed-dim": "#b3c5ff",
+                        "tertiary": "#a33200",
+                        "tertiary-fixed": "#ffdbd0",
+                        "on-primary-fixed": "#001849",
+                        "surface-container": "#ecedfa",
+                        "secondary-container": "#d0e1fb",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-primary-container": "#f8f7ff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#eff0fd",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb59d",
+                        "primary": "#0050cb",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#f2f3ff",
+                        "on-tertiary-container": "#fff6f4",
+                        "surface-container-high": "#e6e7f4",
+                        "primary-container": "#0066ff",
+                        "background": "#faf8ff",
+                        "on-secondary-fixed": "#0b1c30",
+                        "inverse-surface": "#2e303a",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#003fa4",
+                        "surface-dim": "#d8d9e6",
+                        "on-surface-variant": "#424656",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#505f76",
+                        "inverse-primary": "#b3c5ff",
+                        "on-surface": "#191b24",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-tertiary-fixed": "#390c00",
+                        "outline": "#727687",
+                        "primary-fixed": "#dae1ff",
+                        "surface-tint": "#0054d6",
+                        "surface": "#faf8ff",
+                        "on-secondary-container": "#54647a",
+                        "surface-variant": "#e1e2ee",
+                        "tertiary-container": "#cc4204",
+                        "on-tertiary-fixed-variant": "#832600",
+                        "surface-container-highest": "#e1e2ee",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-background": "#191b24",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#c2c6d8",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "xs": "4px",
+                        "base": "4px",
+                        "gutter": "20px",
+                        "lg": "24px",
+                        "sm": "8px",
+                        "margin": "24px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "status-label": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-data": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "status-label": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-data": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#F8FAFC] text-on-surface font-body-md text-body-md antialiased flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-slate-50 dark:bg-slate-950 fixed left-0 top-0 h-screen w-64 z-[60] border-r border-slate-200 dark:border-slate-800 flex flex-col py-6 space-y-1 h-full w-64">
+<div class="px-4 mb-8">
+<h1 class="font-sans text-xl font-bold text-blue-600 dark:text-blue-400">M2M_COMMAND</h1>
+<p class="font-sans text-xs font-medium uppercase tracking-widest text-slate-500 mt-1">System_Status: Optimal</p>
+</div>
+<div class="flex-1 flex flex-col space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-150 active:bg-slate-300 dark:active:bg-slate-700" href="#">
+<span class="material-symbols-outlined" data-weight="fill">dashboard</span>
+<span class="font-sans text-xs font-medium uppercase tracking-widest">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-150 active:bg-slate-300 dark:active:bg-slate-700" href="#">
+<span class="material-symbols-outlined" data-weight="fill">settings_remote</span>
+<span class="font-sans text-xs font-medium uppercase tracking-widest">Control</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-600 dark:text-blue-400 bg-white dark:bg-slate-900 border-r-4 border-blue-600 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-150 active:bg-slate-300 dark:active:bg-slate-700" href="#">
+<span class="material-symbols-outlined" data-weight="fill">list_alt</span>
+<span class="font-sans text-xs font-medium uppercase tracking-widest">Events</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all duration-150 active:bg-slate-300 dark:active:bg-slate-700" href="#">
+<span class="material-symbols-outlined" data-weight="fill">play_circle</span>
+<span class="font-sans text-xs font-medium uppercase tracking-widest">Demo Mode</span>
+</a>
+</div>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary text-white font-sans text-xs font-medium uppercase tracking-widest py-3 rounded-DEFAULT hover:bg-primary-container transition-colors">
+                Emergency Stop
+            </button>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col ml-64 min-w-0">
+<!-- TopAppBar -->
+<header class="bg-white dark:bg-slate-900 flex items-center justify-between px-6 h-16 w-full docked full-width top-0 z-50 border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-4 flex-1">
+<h2 class="font-sans text-lg font-black text-slate-900 dark:text-white uppercase tracking-wider">M2M_CONTROL_SYS</h2>
+<div class="relative w-64 max-w-md hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-bright border border-[#E2E8F0] rounded-DEFAULT text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" placeholder="Search events..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors duration-200 active:scale-95 transition-transform p-2 rounded-DEFAULT">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors duration-200 active:scale-95 transition-transform p-2 rounded-DEFAULT">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-surface-variant flex items-center justify-center overflow-hidden border border-[#E2E8F0]">
+<img alt="Administrator" class="h-full w-full object-cover" data-alt="A professional headshot of a system administrator in a high-tech control room environment. Soft, modern lighting highlights the subject's face against a blurred background of glowing telemetry screens. The color palette features cool tech blues and crisp whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrV95BfwE_mA9xcy6WGORzJ0bCs42jfU2UCTfB_mNetEIASHHygtBHEz8gGUHggrZX8CZaunHqjgz0ngWcnyY2_4ZlQKYnCccIAJaNZ3fiCqejtnKArF0N3k22IYRjxYlAJMbp09ZNJN0v6tJRRryhfDTqER9pT6cVyXLiRkKOox-xSvvzMmk6Yq-1VGNL1WXY-In0Typ0Ifn4Ve9U67Ml7ZsZgIHyyWet59huHn3sPvHT-XyTI3bhjk1y27nT_sEh5Uy4nPjlA_c"/>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto p-lg flex flex-col md:flex-row gap-gutter">
+<!-- Filters Sidebar -->
+<aside class="w-full md:w-64 shrink-0 flex flex-col gap-md">
+<div class="bg-surface-container-lowest border border-[#E2E8F0] rounded-DEFAULT p-md">
+<h3 class="font-label-caps text-label-caps text-secondary mb-md">Filters</h3>
+<div class="space-y-lg">
+<!-- Device Filter -->
+<div>
+<label class="font-status-label text-status-label text-on-surface-variant block mb-sm">Device ID</label>
+<select class="w-full bg-surface-bright border border-[#E2E8F0] rounded-DEFAULT py-2 px-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+<option>All Devices</option>
+<option>Terminal-A</option>
+<option>Sensor-Grid-1</option>
+<option>Pump-Station-Beta</option>
+</select>
+</div>
+<!-- Event Level Filter -->
+<div>
+<label class="font-status-label text-status-label text-on-surface-variant block mb-sm">Event Level</label>
+<div class="space-y-2">
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="rounded border-[#E2E8F0] text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="font-status-label text-status-label">Info</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="rounded border-[#E2E8F0] text-tertiary-container focus:ring-tertiary-container/20" type="checkbox"/>
+<span class="font-status-label text-status-label">Warning</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="rounded border-[#E2E8F0] text-error focus:ring-error/20" type="checkbox"/>
+<span class="font-status-label text-status-label">Critical</span>
+</label>
+</div>
+</div>
+<!-- Time Range -->
+<div>
+<label class="font-status-label text-status-label text-on-surface-variant block mb-sm">Time Range</label>
+<select class="w-full bg-surface-bright border border-[#E2E8F0] rounded-DEFAULT py-2 px-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none">
+<option>Last 1 Hour</option>
+<option>Last 24 Hours</option>
+<option>Last 7 Days</option>
+<option>Custom Range...</option>
+</select>
+</div>
+</div>
+</div>
+</aside>
+<!-- Event Timeline -->
+<section class="flex-1 bg-surface-container-lowest border border-[#E2E8F0] rounded-DEFAULT flex flex-col min-h-0">
+<div class="p-md border-b border-[#F1F5F9] flex justify-between items-center bg-surface-bright">
+<h2 class="font-label-caps text-label-caps text-on-surface">Event Timeline</h2>
+<span class="font-status-label text-status-label text-secondary">Showing 24 of 1,042 events</span>
+</div>
+<div class="flex-1 overflow-y-auto p-md space-y-md">
+<!-- Log Item: Info -->
+<div class="flex items-start gap-4 p-md rounded-DEFAULT hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow bg-surface-bright border border-[#E2E8F0]">
+<div class="shrink-0 mt-1">
+<span class="material-symbols-outlined text-primary text-[20px]">info</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-caps text-label-caps text-primary">Terminal-A</span>
+<span class="font-status-label text-status-label text-outline">10:42:01 AM PST</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mb-2">Data Upload Successful</p>
+<div class="inline-flex items-center gap-2 px-2 py-1 bg-primary/10 rounded-full">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+<span class="font-status-label text-status-label text-primary">Info</span>
+</div>
+</div>
+</div>
+<!-- Log Item: Warning -->
+<div class="flex items-start gap-4 p-md rounded-DEFAULT hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow bg-surface-bright border border-[#E2E8F0]">
+<div class="shrink-0 mt-1">
+<span class="material-symbols-outlined text-tertiary-container text-[20px]">warning</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-caps text-label-caps text-tertiary-container">Pump-Station-Beta</span>
+<span class="font-status-label text-status-label text-outline">10:38:15 AM PST</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mb-2">Pressure threshold approaching upper limit (85%)</p>
+<div class="inline-flex items-center gap-2 px-2 py-1 bg-tertiary-container/10 rounded-full">
+<div class="w-1.5 h-1.5 rounded-full bg-tertiary-container"></div>
+<span class="font-status-label text-status-label text-tertiary-container">Warning</span>
+</div>
+</div>
+</div>
+<!-- Log Item: Critical -->
+<div class="flex items-start gap-4 p-md rounded-DEFAULT hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow bg-error-container/20 border border-error/30">
+<div class="shrink-0 mt-1">
+<span class="material-symbols-outlined text-error text-[20px]">error</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-caps text-label-caps text-error">Sensor-Grid-1</span>
+<span class="font-status-label text-status-label text-outline">10:30:00 AM PST</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mb-2 font-medium">Connection lost to primary telemetry node.</p>
+<div class="inline-flex items-center gap-2 px-2 py-1 bg-error/10 rounded-full">
+<div class="w-1.5 h-1.5 rounded-full bg-error"></div>
+<span class="font-status-label text-status-label text-error">Critical</span>
+</div>
+</div>
+</div>
+<!-- Log Item: Info -->
+<div class="flex items-start gap-4 p-md rounded-DEFAULT hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-shadow bg-surface-bright border border-[#E2E8F0]">
+<div class="shrink-0 mt-1">
+<span class="material-symbols-outlined text-primary text-[20px]">info</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-caps text-label-caps text-primary">Terminal-C</span>
+<span class="font-status-label text-status-label text-outline">10:15:22 AM PST</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mb-2">Firmware update completed successfully (v2.4.1)</p>
+<div class="inline-flex items-center gap-2 px-2 py-1 bg-primary/10 rounded-full">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+<span class="font-status-label text-status-label text-primary">Info</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body></html>
