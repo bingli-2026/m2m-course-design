@@ -1,0 +1,45 @@
+@startuml
+title 微型智能产线监测与调度系统总体架构
+
+skinparam defaultFontName Noto Sans CJK SC
+skinparam shadowing false
+skinparam componentStyle rectangle
+
+node "ESP32 工位终端" as terminal
+node "ESP32 产线网关" as gateway
+node "ESP32 平台节点" as platform
+cloud "MQTT Broker" as broker
+collections "单页大屏" as dashboard
+database "设备表 / 资源表 / 事件表" as storage
+
+terminal --> gateway : ESP-NOW\n运行状态 / 产量 / 温度 / 故障码
+gateway --> broker : MQTT\n汇聚与转发业务主题
+platform --> broker : 订阅状态与控制主题
+platform --> storage : 更新设备与资源台账
+storage --> dashboard : 提供展示数据
+broker --> dashboard : 推送实时事件与状态
+platform --> broker : 发布启动 / 暂停 / 复位命令
+broker --> gateway : MQTT 控制命令
+gateway --> terminal : ESP-NOW 下发工位控制
+
+note bottom of terminal
+模拟产线工位设备
+上报状态、产量和故障信息
+end note
+
+note bottom of gateway
+负责接收 ESP-NOW 数据
+并通过 MQTT 转发到平台
+end note
+
+note bottom of platform
+负责设备管理、资源管理
+告警判断和命令调度
+end note
+
+note bottom of dashboard
+展示设备总览、工位详情
+事件流和趋势图
+end note
+
+@enduml

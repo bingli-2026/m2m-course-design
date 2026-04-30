@@ -1,0 +1,24 @@
+# Python / Node common
+__pycache__/
+*.pyc
+node_modules/
+dist/
+.uv-cache/
+.venv/
+.pytest_cache/
+.pio-core/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Keep existing experimental folder ignored if needed
+code/.pio/
+code/.pio-core/
+code/.venv-pio/
+
+.codex
+
+*.pdf
+*.tmp

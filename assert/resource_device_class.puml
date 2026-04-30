@@ -1,0 +1,60 @@
+@startuml
+title 微型智能产线核心类图
+
+skinparam defaultFontName Noto Sans CJK SC
+skinparam shadowing false
+
+class WorkstationDevice {
+  +deviceId: String
+  +deviceType: String
+  +status: String
+  +faultCode: String
+  +lastHeartbeat: DateTime
+  +register()
+  +heartbeat()
+  +executeCommand(cmd)
+}
+
+class ProductionResource {
+  +resourceId: String
+  +name: String
+  +type: String
+  +value: String
+  +updatedAt: DateTime
+  +refresh(value)
+}
+
+class GatewayNode {
+  +forwardMessage(topic, payload)
+  +cacheMessage(msg)
+  +filterAbnormalMessage(msg)
+}
+
+class PlatformNode {
+  +registerDevice(device)
+  +updateResource(resource)
+  +judgeAlarm(device)
+  +sendCommand(deviceId, cmd)
+}
+
+class EventRecord {
+  +eventId: String
+  +level: String
+  +content: String
+  +createdAt: DateTime
+}
+
+class DashboardView {
+  +showOverview()
+  +showTrend()
+  +showEventList()
+}
+
+WorkstationDevice "1" o-- "0..*" ProductionResource : 拥有
+PlatformNode ..> WorkstationDevice : 管理
+PlatformNode ..> ProductionResource : 管理
+PlatformNode ..> EventRecord : 生成
+GatewayNode ..> WorkstationDevice : 接入/转发
+DashboardView ..> PlatformNode : 读取展示数据
+
+@enduml

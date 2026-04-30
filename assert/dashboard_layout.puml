@@ -1,0 +1,27 @@
+@startuml
+title 单页大屏布局示意图
+
+skinparam defaultFontName Noto Sans CJK SC
+skinparam shadowing false
+skinparam rectangle {
+  RoundCorner 12
+}
+
+rectangle "顶部标题栏\n系统标题 / 当前时间 / MQTT 连接状态" as header
+rectangle "左侧总览\n在线设备数\n运行中 / 待机 / 故障 / 离线" as left
+rectangle "中间工位详情\n工位编号\n当前状态\n产量\n温度\n故障码" as center
+rectangle "右侧事件流\n注册成功\n故障触发\n命令回执\n离线告警" as right
+rectangle "底部趋势图\n产量曲线 / 温度曲线" as bottom_left
+rectangle "底部控制区\n启动 / 暂停 / 复位" as bottom_right
+
+header -[hidden]down- left
+header -[hidden]down- center
+header -[hidden]down- right
+left -[hidden]right- center
+center -[hidden]right- right
+left -[hidden]down- bottom_left
+center -[hidden]down- bottom_left
+right -[hidden]down- bottom_right
+bottom_left -[hidden]right- bottom_right
+
+@enduml

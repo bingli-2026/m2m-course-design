@@ -1,0 +1,44 @@
+@startuml
+title 微型智能产线主流程时序图
+
+skinparam defaultFontName Noto Sans CJK SC
+skinparam shadowing false
+
+participant "工位终端" as terminal
+participant "产线网关" as gateway
+participant "MQTT Broker" as broker
+participant "平台节点" as platform
+participant "单页大屏" as dashboard
+
+terminal -> gateway : ESP-NOW 上电注册
+gateway -> broker : MQTT 发布 workstation/register
+broker -> platform : 转发注册消息
+platform -> platform : 创建设备记录
+platform -> broker : 发布 workstation/register_ack
+broker -> gateway : 返回注册确认
+gateway -> terminal : ESP-NOW 通知注册成功
+
+loop 周期上报
+  terminal -> gateway : ESP-NOW 上报状态 / 产量 / 温度 / 故障码
+  gateway -> broker : MQTT 发布 workstation/telemetry
+  broker -> platform : 转发业务消息
+  platform -> platform : 更新设备表与资源表
+  platform -> broker : 发布 dashboard/update
+  broker -> dashboard : 刷新总览与趋势图
+end
+
+alt 检测到故障或异常温度
+  platform -> broker : 发布 dashboard/event
+  broker -> dashboard : 推送告警事件流
+end
+
+platform -> broker : 发布 workstation/command/device01
+broker -> gateway : MQTT 转发控制命令
+gateway -> terminal : ESP-NOW 启动 / 暂停 / 复位
+terminal -> gateway : ESP-NOW 返回执行结果
+gateway -> broker : MQTT 发布 workstation/reply/device01
+broker -> platform : 返回执行结果
+platform -> broker : 发布 dashboard/event
+broker -> dashboard : 更新控制结果事件
+
+@enduml
