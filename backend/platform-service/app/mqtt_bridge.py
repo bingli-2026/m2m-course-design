@@ -137,8 +137,25 @@ class MqttBridge:
             if not device_id:
                 return
             status = payload.get("status")
-            seq = payload.get("heartbeat_seq")
+            # Fallback: terminal firmware sends "state" (e.g. RUNNING) instead of "status" (ONLINE)
+            if status is None:
+                raw_state = payload.get("state")
+                if isinstance(raw_state, str):
+                    state_map = {
+                        "RUNNING": "ONLINE",
+                        "ONLINE": "ONLINE",
+                        "BOOT": "ONLINE",
+                        "INIT_RADIO": "ONLINE",
+                        "REGISTERING": "ONLINE",
+                        "OFFLINE_RETRY": "ONLINE",
+                        "FAULT": "FAULT",
+                        "WARNING": "WARNING",
+                    }
+                    status = state_map.get(raw_state.upper(), raw_state.upper())
+            seq = payload.get("heartbeat_seq") or payload.get("seq")
             fault_code = payload.get("fault_code")
+            if fault_code is None and isinstance(payload.get("fault"), (int, float)) and float(payload["fault"]) != 0:
+                fault_code = str(payload["fault"])
             seq_int = self._parse_optional_int(seq)
             self._state_store.ingest_telemetry(
                 device_id=device_id,
