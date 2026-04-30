@@ -14,7 +14,7 @@ class DemoSimulator:
 
     def __init__(self, state_store: InMemoryStateStore) -> None:
         self._store = state_store
-        self._enabled = os.getenv("DEMO_MODE", "true").lower() in {"1", "true", "yes"}
+        self._enabled = os.getenv("DEMO_MODE", "false").lower() in {"1", "true", "yes"}
         self._interval = float(os.getenv("DEMO_INTERVAL_SEC", "2"))
         self._thread: threading.Thread | None = None
         self._running = False

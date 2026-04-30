@@ -14,7 +14,7 @@ trap cleanup EXIT INT TERM
 echo "[dev] starting backend on :8080 with reload"
 (
   cd "$BACKEND_DIR"
-  ENABLE_MQTT=true MQTT_HOST=127.0.0.1 MQTT_PORT=1883 uv run uvicorn app.main:app --reload --port 8080
+  ENABLE_MQTT=true DEMO_MODE=true MQTT_HOST=127.0.0.1 MQTT_PORT=1883 uv run uvicorn app.main:app --reload --port 8080
 ) &
 
 sleep 1

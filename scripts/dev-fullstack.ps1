@@ -15,7 +15,7 @@ $BACKEND_DIR = Join-Path $ROOT_DIR "backend\platform-service"
 $FRONTEND_DIR = Join-Path $ROOT_DIR "web\dashboard"
 
 Write-Host "[dev] starting backend on :8080 with reload" -ForegroundColor Cyan
-$backendProc = Start-Process -FilePath "cmd" -ArgumentList "/c", "title M2M Backend && cd /d `"$BACKEND_DIR`" && set ENABLE_MQTT=true && set MQTT_HOST=127.0.0.1 && set MQTT_PORT=1883 && uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8080 && pause" -PassThru
+$backendProc = Start-Process -FilePath "cmd" -ArgumentList "/c", "title M2M Backend && cd /d `"$BACKEND_DIR`" && set ENABLE_MQTT=true && set DEMO_MODE=true && set MQTT_HOST=127.0.0.1 && set MQTT_PORT=1883 && uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8080 && pause" -PassThru
 
 Start-Sleep -Seconds 2
 
