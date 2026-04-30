@@ -12,9 +12,12 @@ const LEVEL_CONFIG = {
 type EventLevel = "INFO" | "WARN" | "CRITICAL";
 
 export default function EventsPage() {
-  const { events, loading } = useEvents(200);
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
+  const { events, total, loading } = useEvents(page, pageSize);
   const [deviceFilter, setDeviceFilter] = useState("全部设备");
   const [levels, setLevels] = useState<EventLevel[]>(["INFO", "WARN", "CRITICAL"]);
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   const toggleLevel = (l: EventLevel) => {
     setLevels((prev) => (prev.includes(l) ? prev.filter((x) => x !== l) : [...prev, l]));
@@ -93,10 +96,10 @@ export default function EventsPage() {
           <div className="flex items-center justify-between border-b border-outline-variant bg-surface-bright p-md">
             <h2 className="font-label-caps text-label-caps text-on-surface">事件时间线</h2>
             <span className="font-status-label text-status-label text-secondary">
-              显示 {filtered.length} / {events.length} 条
+              共 {total} 条，第 {page} / {totalPages} 页
             </span>
           </div>
-          <div className="flex-1 space-y-md overflow-y-auto p-md">
+          <div className="flex-1 space-y-md overflow-y-auto p-md" style={{ maxHeight: "calc(100vh - 320px)" }}>
             {filtered.length === 0 ? (
               <div className="py-16 text-center text-outline">暂无事件</div>
             ) : (
@@ -132,6 +135,29 @@ export default function EventsPage() {
                 );
               })
             )}
+          </div>
+
+          {/* Pagination controls */}
+          <div className="flex items-center justify-between border-t border-outline-variant bg-surface-bright px-md py-3">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page <= 1}
+              className="flex items-center gap-1 rounded-DEFAULT border border-outline-variant px-3 py-1.5 text-sm font-medium text-on-surface transition-colors hover:bg-surface-container disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <span className="material-symbols-outlined text-[16px]">chevron_left</span>
+              上一页
+            </button>
+            <span className="font-status-label text-status-label text-secondary">
+              第 {page} / {totalPages} 页
+            </span>
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page >= totalPages}
+              className="flex items-center gap-1 rounded-DEFAULT border border-outline-variant px-3 py-1.5 text-sm font-medium text-on-surface transition-colors hover:bg-surface-container disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              下一页
+              <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+            </button>
           </div>
         </section>
       ) : (

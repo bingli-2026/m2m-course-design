@@ -74,13 +74,14 @@ def get_state() -> dict[str, object]:
 
 @app.api_route("/api/v1/events", methods=["GET", "HEAD"])
 def get_events(
-    limit: int = 50,
+    limit: int = 20,
+    offset: int = 0,
     level: str | None = None,
     device_id: str | None = None,
     start: str | None = None,
     end: str | None = None,
 ) -> dict[str, object]:
-    return state_store.get_events(limit=limit, level=level, device_id=device_id, start=start, end=end)
+    return state_store.get_events(limit=limit, offset=offset, level=level, device_id=device_id, start=start, end=end)
 
 
 class CommandRequest(BaseModel):

@@ -50,6 +50,7 @@ export type StateResponse = {
 
 export type EventsResponse = {
   updated_at: string;
+  total: number;
   events: Array<{
     id: number;
     timestamp: string;

@@ -132,12 +132,14 @@ class InMemoryStateStore:
         self,
         limit: int = 50,
         *,
+        offset: int = 0,
         level: str | None = None,
         device_id: str | None = None,
         start: str | None = None,
         end: str | None = None,
     ) -> dict[str, object]:
         safe_limit = max(1, min(limit, 200))
+        safe_offset = max(0, offset)
         with self._lock:
             conn = self._conn()
             try:
@@ -157,18 +159,25 @@ class InMemoryStateStore:
                     args.append(end)
 
                 where_sql = f"WHERE {' AND '.join(where)}" if where else ""
+
+                total_row = conn.execute(
+                    f"SELECT COUNT(*) AS c FROM event_log {where_sql}", args
+                ).fetchone()
+                total = int(total_row["c"]) if total_row else 0
+
                 rows = conn.execute(
                     f"""
                     SELECT id, timestamp, level, title, detail, device_id
                     FROM event_log
                     {where_sql}
                     ORDER BY id DESC
-                    LIMIT ?
+                    LIMIT ? OFFSET ?
                     """,
-                    (*args, safe_limit),
+                    (*args, safe_limit, safe_offset),
                 ).fetchall()
                 return {
                     "updated_at": _now_iso(),
+                    "total": total,
                     "events": [dict(r) for r in rows],
                 }
             finally:

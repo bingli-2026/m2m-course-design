@@ -39,19 +39,23 @@ export function useStatePolling(intervalMs = 3000) {
   return { devices, loading, error, refetch: fetchState };
 }
 
-export function useEvents(limit = 50) {
+export function useEvents(page = 1, pageSize = 20) {
   const [events, setEvents] = useState<EventItem[]>([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const offset = (page - 1) * pageSize;
+
   const fetchEvents = async () => {
     try {
-      const data = await get<EventsResponse>(`/api/v1/events?limit=${limit}`);
+      const data = await get<EventsResponse>(`/api/v1/events?limit=${pageSize}&offset=${offset}`);
       const normalized: EventItem[] = (data.events ?? []).map((e) => ({
         ...e,
         ts: new Date(e.timestamp).toLocaleTimeString("zh-CN", { hour12: false }),
       }));
       setEvents(normalized);
+      setTotal(data.total ?? 0);
       setError(null);
     } catch (e) {
       setError((e as Error).message);
@@ -61,12 +65,13 @@ export function useEvents(limit = 50) {
   };
 
   useEffect(() => {
+    setLoading(true);
     fetchEvents();
     const timer = setInterval(fetchEvents, 5000);
     return () => clearInterval(timer);
-  }, [limit]);
+  }, [page, pageSize]);
 
-  return { events, loading, error, refetch: fetchEvents };
+  return { events, total, loading, error, refetch: fetchEvents };
 }
 
 export function useMetrics(intervalMs = 5000) {

@@ -13,7 +13,7 @@ import {
 
 export default function DashboardPage() {
   const { devices, loading } = useStatePolling(3000);
-  const { events } = useEvents(20);
+  const { events } = useEvents(1, 20);
   const { realtime } = useRealtimeMetrics(3000);
 
   const onlineRate = realtime ? Math.round(realtime.health_score) : 100;

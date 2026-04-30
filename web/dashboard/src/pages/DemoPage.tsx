@@ -57,7 +57,7 @@ function stepLabel(s: StepStatus): string {
 export default function DemoPage() {
   const { devices } = useStatePolling(3000);
   const { realtime } = useRealtimeMetrics(3000);
-  const { events } = useEvents(100);
+  const { events } = useEvents(1, 100);
   const { commands } = useCommands(100, 3000);
   const { sendCommand, sending } = useControl();
 
