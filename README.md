@@ -28,3 +28,17 @@
 
 - Windows ESP32 环境复现：`docs/windows-esp32-setup.md`
 - 产品需求文档（PRD）：`docs/product-prd.md`
+- 全局协议基线（MQTT/HTTP）：`docs/protocol-contract.md`
+
+## 全栈联调（热更新）
+
+- 一键启动前后端热更新开发环境：
+  - `bash scripts/dev-fullstack.sh`
+- 服务端口：
+  - 后端 API：`http://127.0.0.1:8080`
+  - 前端开发服务器：`http://127.0.0.1:5173`
+
+## 联调冒烟脚本
+
+- 一键验证 telemetry -> command -> mqtt ack -> 状态/事件回写链路：
+  - `bash scripts/smoke-e2e.sh`

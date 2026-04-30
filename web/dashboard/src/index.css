@@ -1,3 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
 html,
 body,
 #root {
@@ -6,5 +14,9 @@ body,
 }
 
 body {
-  background: #f4f6f8;
+  background-color: #faf8ff;
+  color: #191b24;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
 }
