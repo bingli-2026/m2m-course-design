@@ -215,6 +215,11 @@ def get_metrics_summary() -> dict[str, object]:
     return state_store.get_metrics_summary()
 
 
+@app.api_route("/api/v1/metrics/realtime", methods=["GET", "HEAD"])
+def get_metrics_realtime(points: int = 12, bucket_seconds: int = 5) -> dict[str, object]:
+    return state_store.get_realtime_dashboard_metrics(points=points, bucket_seconds=bucket_seconds)
+
+
 @app.websocket("/api/v1/stream")
 async def stream_snapshot(websocket: WebSocket) -> None:
     await websocket.accept()
@@ -226,6 +231,7 @@ async def stream_snapshot(websocket: WebSocket) -> None:
                 "state": snapshot,
                 "events": state_store.get_events(limit=20),
                 "metrics": state_store.get_metrics_summary(),
+                "realtime": state_store.get_realtime_dashboard_metrics(points=12, bucket_seconds=5),
                 "commands": state_store.list_commands(limit=20),
             }
             await websocket.send_json(payload)

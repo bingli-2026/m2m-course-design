@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import os
 import sqlite3
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from threading import RLock
 from typing import Any
 
@@ -18,7 +18,22 @@ class InMemoryStateStore:
     def __init__(self) -> None:
         self._lock = RLock()
         self._db_path = os.getenv("SQLITE_DB_PATH", "platform.db")
+        self._offline_after_seconds = int(os.getenv("OFFLINE_AFTER_SECONDS", "15"))
         self._init_db()
+
+    def _effective_status(self, status: str, last_seen: str) -> str:
+        if status not in {"ONLINE", "WARNING"}:
+            return status
+        try:
+            seen = datetime.fromisoformat(last_seen)
+            if seen.tzinfo is None:
+                seen = seen.replace(tzinfo=timezone.utc)
+            delta = (datetime.now(timezone.utc) - seen).total_seconds()
+            if delta > self._offline_after_seconds:
+                return "OFFLINE"
+            return status
+        except Exception:
+            return "OFFLINE"
 
     def _conn(self) -> sqlite3.Connection:
         conn = sqlite3.connect(self._db_path)
@@ -102,7 +117,7 @@ class InMemoryStateStore:
                     "workstations": [
                         {
                             "device_id": r["device_id"],
-                            "status": r["status"],
+                            "status": self._effective_status(r["status"], r["last_seen"]),
                             "last_seen": r["last_seen"],
                             "heartbeat_seq": r["heartbeat_seq"],
                             "fault_code": r["fault_code"],
@@ -259,38 +274,120 @@ class InMemoryStateStore:
 
     def get_metrics_summary(self) -> dict[str, object]:
         with self._lock:
+            snapshot = self.get_snapshot()
+            states = snapshot["workstations"]
+            total = len(states)
+            online = sum(1 for s in states if s["status"] == "ONLINE")
+            warning = sum(1 for s in states if s["status"] == "WARNING")
+            fault = sum(1 for s in states if s["status"] == "FAULT")
             conn = self._conn()
             try:
-                stats = conn.execute(
-                    """
-                    SELECT
-                      COUNT(*) AS device_total,
-                      SUM(CASE WHEN status='ONLINE' THEN 1 ELSE 0 END) AS online_count,
-                      SUM(CASE WHEN status='WARNING' THEN 1 ELSE 0 END) AS warning_count,
-                      SUM(CASE WHEN status='FAULT' THEN 1 ELSE 0 END) AS fault_count
-                    FROM device_state
-                    """
-                ).fetchone()
                 event_total = conn.execute("SELECT COUNT(*) AS c FROM event_log").fetchone()["c"]
                 command_total = conn.execute("SELECT COUNT(*) AS c FROM command_log").fetchone()["c"]
-
-                total = int(stats["device_total"] or 0)
-                online = int(stats["online_count"] or 0)
-                warning = int(stats["warning_count"] or 0)
-                fault = int(stats["fault_count"] or 0)
-
-                return {
-                    "updated_at": _now_iso(),
-                    "device_total": total,
-                    "online_count": online,
-                    "warning_count": warning,
-                    "fault_count": fault,
-                    "online_rate": round((online / total) * 100, 2) if total else 0.0,
-                    "event_total": int(event_total or 0),
-                    "command_total": int(command_total or 0),
-                }
             finally:
                 conn.close()
+
+            return {
+                "updated_at": _now_iso(),
+                "device_total": total,
+                "online_count": online,
+                "warning_count": warning,
+                "fault_count": fault,
+                "online_rate": round((online / total) * 100, 2) if total else 0.0,
+                "event_total": int(event_total or 0),
+                "command_total": int(command_total or 0),
+            }
+
+    def get_realtime_dashboard_metrics(self, points: int = 12, bucket_seconds: int = 5) -> dict[str, object]:
+        safe_points = max(6, min(points, 60))
+        safe_bucket = max(1, min(bucket_seconds, 60))
+        now = datetime.now(timezone.utc)
+        labels: list[str] = []
+        starts: list[datetime] = []
+        for i in range(safe_points):
+            delta = safe_bucket * (safe_points - 1 - i)
+            labels.append(f"-{delta}s" if delta > 0 else "now")
+            starts.append(now.replace(microsecond=0) - timedelta(seconds=delta))
+
+        conn = self._conn()
+        try:
+            event_rows = conn.execute("SELECT timestamp, level FROM event_log ORDER BY id DESC LIMIT 2000").fetchall()
+            cmd_rows = conn.execute(
+                "SELECT created_at, updated_at, status FROM command_log ORDER BY id DESC LIMIT 2000"
+            ).fetchall()
+        finally:
+            conn.close()
+
+        event_times: list[tuple[datetime, str]] = []
+        for r in event_rows:
+            try:
+                t = datetime.fromisoformat(r["timestamp"])
+                if t.tzinfo is None:
+                    t = t.replace(tzinfo=timezone.utc)
+                event_times.append((t, r["level"]))
+            except Exception:
+                continue
+
+        throughput: list[int] = []
+        critical_count = 0
+        warn_count = 0
+        for idx, start in enumerate(starts):
+            end = start + timedelta(seconds=safe_bucket)
+            c = 0
+            for t, lvl in event_times:
+                if start <= t < end:
+                    c += 1
+                    if idx == len(starts) - 1:
+                        if lvl == "CRITICAL":
+                            critical_count += 1
+                        elif lvl == "WARN":
+                            warn_count += 1
+            throughput.append(c)
+
+        latency_buckets_sum = [0.0] * safe_points
+        latency_buckets_cnt = [0] * safe_points
+        for r in cmd_rows:
+            try:
+                created = datetime.fromisoformat(r["created_at"])
+                updated = datetime.fromisoformat(r["updated_at"])
+                if created.tzinfo is None:
+                    created = created.replace(tzinfo=timezone.utc)
+                if updated.tzinfo is None:
+                    updated = updated.replace(tzinfo=timezone.utc)
+                latency_ms = max(0.0, (updated - created).total_seconds() * 1000.0)
+                for i, start in enumerate(starts):
+                    end = start + timedelta(seconds=safe_bucket)
+                    if start <= created < end:
+                        latency_buckets_sum[i] += latency_ms
+                        latency_buckets_cnt[i] += 1
+                        break
+            except Exception:
+                continue
+
+        latency: list[float] = []
+        for i in range(safe_points):
+            if latency_buckets_cnt[i] == 0:
+                latency.append(0.0)
+            else:
+                latency.append(round(latency_buckets_sum[i] / latency_buckets_cnt[i], 2))
+
+        summary = self.get_metrics_summary()
+        online_rate = float(summary["online_rate"])
+        fault_penalty = min(40.0, float(summary["fault_count"]) * 15.0)
+        warn_penalty = min(20.0, float(summary["warning_count"]) * 8.0)
+        health_score = max(0.0, min(100.0, online_rate - fault_penalty - warn_penalty))
+
+        return {
+            "updated_at": _now_iso(),
+            "labels": labels,
+            "throughput": throughput,
+            "latency_ms": latency,
+            "health_score": round(health_score, 2),
+            "active_alerts": {
+                "critical": critical_count,
+                "warn": warn_count,
+            },
+        }
 
     def get_command(self, command_id: int) -> dict[str, object] | None:
         with self._lock:

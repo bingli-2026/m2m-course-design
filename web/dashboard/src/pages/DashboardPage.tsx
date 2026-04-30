@@ -1,4 +1,4 @@
-import { useStatePolling, useEvents, useMetrics } from "../hooks/useApi";
+import { useStatePolling, useEvents, useRealtimeMetrics } from "../hooks/useApi";
 import DeviceCard from "../components/Dashboard/DeviceCard";
 import ChartCard from "../components/Dashboard/ChartCard";
 import AlertList from "../components/Dashboard/AlertList";
@@ -11,14 +11,12 @@ import {
   PageSkeleton,
 } from "../components/Skeleton";
 
-const timeLabels = ["-55s", "-50s", "-45s", "-40s", "-35s", "-30s", "-25s", "-20s", "-15s", "-10s", "-5s", "now"];
-
 export default function DashboardPage() {
   const { devices, loading } = useStatePolling(3000);
   const { events } = useEvents(20);
-  const { metrics } = useMetrics();
+  const { realtime } = useRealtimeMetrics(3000);
 
-  const onlineRate = metrics ? Math.round(metrics.online_rate) : 100;
+  const onlineRate = realtime ? Math.round(realtime.health_score) : 100;
   const hasData = !loading && devices.length > 0;
 
   return (
@@ -40,8 +38,17 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 gap-gutter lg:grid-cols-2">
         {hasData ? (
           <>
-            <ChartCard title="实时数据吞吐量" data={devices.map((d) => d.heartbeat_seq)} labels={timeLabels} />
-            <ChartCard title="系统延迟 (ms)" data={devices.map(() => 60 + Math.round(Math.random() * 20))} labels={timeLabels} type="bar" />
+            <ChartCard
+              title="实时数据吞吐量"
+              data={realtime?.throughput ?? []}
+              labels={realtime?.labels ?? []}
+            />
+            <ChartCard
+              title="系统延迟 (ms)"
+              data={realtime?.latency_ms ?? []}
+              labels={realtime?.labels ?? []}
+              type="bar"
+            />
           </>
         ) : (
           <>

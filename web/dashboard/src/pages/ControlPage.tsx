@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useStatePolling, useControl } from "../hooks/useApi";
+import { useStatePolling, useControl, useCommands } from "../hooks/useApi";
 import { DEVICE_ROLES, COMMAND_LABELS } from "../types";
 import {
   CommandPanelSkeleton,
@@ -12,30 +12,18 @@ const COMMANDS = ["start_sampling", "sync_config", "reboot", "reset_node"] as co
 export default function ControlPage() {
   const { devices, loading } = useStatePolling(3000);
   const { sendCommand, sending, error } = useControl();
+  const { commands } = useCommands(50, 3000);
 
   const [activeDevice, setActiveDevice] = useState("terminal-a");
-  const [logs, setLogs] = useState<
-    { ts: string; tag: string; tagColor: string; text: string }[]
-  >([]);
 
   const currentDevice = devices.find((d) => d.device_id === activeDevice);
   const hasData = !loading && devices.length > 0;
 
-  const appendLog = (tag: string, tagColor: string, text: string) => {
-    const ts = new Date().toLocaleTimeString("zh-CN", { hour12: false });
-    setLogs((prev) => [...prev.slice(-50), { ts, tag, tagColor, text }]);
-  };
-
   const handleCommand = async (command: string) => {
-    appendLog("CMD_SEND", "text-amber-400", `${command} --target=${activeDevice}`);
     try {
-      const res = await sendCommand({ target_device: activeDevice, command });
-      appendLog("ACK_RECV", "text-emerald-400", `${res.status} (event_id=${res.event_id})`);
-      if (res.state) {
-        appendLog("STATE", "text-blue-400", `device=${res.state.device_id} status=${res.state.status}`);
-      }
+      await sendCommand({ target_device: activeDevice, command });
     } catch {
-      appendLog("ERROR", "text-red-400", `命令执行失败: ${error}`);
+      console.error(error);
     }
   };
 
@@ -179,23 +167,32 @@ export default function ControlPage() {
                   )}
                 </div>
                 <div className="flex gap-2">
-                  <button
-                    onClick={() => setLogs([])}
-                    className="text-slate-400 transition-colors hover:text-slate-200"
-                  >
-                    <span className="material-symbols-outlined text-sm">delete</span>
-                  </button>
+                  <span className="font-mono text-[11px] text-slate-400">真实命令日志</span>
                 </div>
               </div>
               <div className="flex-1 space-y-2 overflow-y-auto p-md font-mono text-sm text-slate-300">
-                {logs.length === 0 ? (
+                {commands.length === 0 ? (
                   <div className="text-slate-500">等待命令...</div>
                 ) : (
-                  logs.map((log, i) => (
-                    <div key={i} className="flex gap-2">
-                      <span className="text-slate-500">[{log.ts}]</span>
-                      <span className={log.tagColor}>{log.tag}:</span>
-                      <span>{log.text}</span>
+                  commands.slice(0, 30).map((cmd) => (
+                    <div key={cmd.id} className="flex gap-2">
+                      <span className="text-slate-500">
+                        [{new Date(cmd.updated_at).toLocaleTimeString("zh-CN", { hour12: false })}]
+                      </span>
+                      <span
+                        className={
+                          cmd.status === "acked"
+                            ? "text-emerald-400"
+                            : cmd.status === "failed"
+                              ? "text-red-400"
+                              : cmd.status === "sent"
+                                ? "text-blue-400"
+                                : "text-amber-400"
+                        }
+                      >
+                        {cmd.status.toUpperCase()}:
+                      </span>
+                      <span>{cmd.command} --target={cmd.target_device}</span>
                     </div>
                   ))
                 )}

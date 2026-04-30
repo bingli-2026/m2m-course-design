@@ -24,6 +24,7 @@ export type CommandRequest = {
 
 export type CommandResponse = {
   status: string;
+  command_status?: string;
   target_device: string;
   command: string;
   applied_at: string;
@@ -65,8 +66,21 @@ export type CommandsResponse = {
     id: number;
     target_device: string;
     command: string;
+    params?: Record<string, unknown> | null;
     status: string;
     created_at: string;
     updated_at: string;
   }>;
+};
+
+export type RealtimeMetricsResponse = {
+  updated_at: string;
+  labels: string[];
+  throughput: number[];
+  latency_ms: number[];
+  health_score: number;
+  active_alerts: {
+    critical: number;
+    warn: number;
+  };
 };
