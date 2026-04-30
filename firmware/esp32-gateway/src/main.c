@@ -32,6 +32,7 @@ static const char *TAG = "gateway";
 #define MQTT_UP_COMMAND_ACK_TOPIC "m2m/up/command_ack"
 #define MQTT_DOWNLINK_TOPIC "m2m/down/command/+"
 #define MQTT_CLIENT_ID "m2m-gateway-esp32"
+#define GATEWAY_DEVICE_ID "gateway"
 #define ESPNOW_MAX_PAYLOAD 250
 #define DEVICE_ID_MAX_LEN 31
 #define MAX_TERMINAL_PEERS 12
@@ -510,6 +511,7 @@ static void init_mqtt(void)
 static void health_task(void *arg)
 {
     (void)arg;
+    uint32_t gw_seq = 0;
     while (1) {
         EventBits_t bits = xEventGroupGetBits(s_evt_group);
         bool wifi_ok = (bits & WIFI_CONNECTED_BIT) != 0;
@@ -522,10 +524,26 @@ static void health_task(void *arg)
             set_state(GATEWAY_DEGRADED, "channel unhealthy");
         }
 
+        /* Publish gateway own heartbeat so the dashboard sees it alive */
+        if (mqtt_ok) {
+            gw_seq++;
+            cJSON *hb = cJSON_CreateObject();
+            if (hb != NULL) {
+                cJSON_AddStringToObject(hb, "device_id", GATEWAY_DEVICE_ID);
+                cJSON_AddNumberToObject(hb, "heartbeat_seq", gw_seq);
+                char *hb_str = cJSON_PrintUnformatted(hb);
+                if (hb_str != NULL) {
+                    esp_mqtt_client_publish(s_mqtt_client, MQTT_UP_HEARTBEAT_TOPIC, hb_str, 0, 1, 0);
+                    cJSON_free(hb_str);
+                }
+                cJSON_Delete(hb);
+            }
+        }
+
         ESP_LOGI(TAG,
-                 "health state=%s uplink=%" PRIu32 " downlink=%" PRIu32 " downlink_fail=%" PRIu32 " frame_decode_fail=%" PRIu32,
+                 "health state=%s uplink=%" PRIu32 " downlink=%" PRIu32 " downlink_fail=%" PRIu32 " frame_decode_fail=%" PRIu32 " gw_hb=%" PRIu32,
                  state_to_str(s_ctx.state), s_ctx.uplink_count, s_ctx.downlink_count,
-                 s_ctx.downlink_fail_count, s_ctx.frame_decode_fail_count);
+                 s_ctx.downlink_fail_count, s_ctx.frame_decode_fail_count, gw_seq);
         vTaskDelay(pdMS_TO_TICKS(3000));
     }
 }
