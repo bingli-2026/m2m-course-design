@@ -27,3 +27,4 @@
 ## 复现文档
 
 - Windows ESP32 环境复现：`docs/windows-esp32-setup.md`
+- 产品需求文档（PRD）：`docs/product-prd.md`
