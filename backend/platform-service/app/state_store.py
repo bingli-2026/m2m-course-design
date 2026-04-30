@@ -22,7 +22,7 @@ class InMemoryStateStore:
         self._init_db()
 
     def _effective_status(self, status: str, last_seen: str) -> str:
-        if status not in {"ONLINE", "WARNING"}:
+        if status == "FAULT":
             return status
         try:
             seen = datetime.fromisoformat(last_seen)

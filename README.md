@@ -32,22 +32,31 @@
 
 ## 全栈联调（热更新）
 
-- 一键启动前后端热更新开发环境：
-  - `bash scripts/dev-fullstack.sh`
+- Linux/macOS：`bash scripts/dev-fullstack.sh`
+- Windows：`powershell -File scripts/dev-fullstack.ps1`
 - 服务端口：
   - 后端 API：`http://127.0.0.1:8080`
   - 前端开发服务器：`http://127.0.0.1:5173`
 
 ## 联调冒烟脚本
 
-- 一键验证 telemetry -> command -> mqtt ack -> 状态/事件回写链路：
-  - `bash scripts/smoke-e2e.sh`
+- Linux/macOS：`bash scripts/smoke-e2e.sh`
+- Windows：`powershell -File scripts/smoke-e2e.ps1`
+- 一键验证 telemetry -> command -> mqtt ack -> 状态/事件回写链路
 
 ## 本地真实部署
 
 - 启动（非 dev 模式）：
-  - `bash scripts/deploy-stack.sh`
+  - Linux/macOS：`bash scripts/deploy-stack.sh`
+  - Windows：`powershell -File scripts/deploy-stack.ps1`
 - 停止：
-  - `bash scripts/stop-stack.sh`
+  - Linux/macOS：`bash scripts/stop-stack.sh`
+  - Windows：`powershell -File scripts/stop-stack.ps1`
 - 详细流程：
   - `docs/deployment-and-test-plan.md`
+
+## Windows 前置依赖
+
+- 安装 [Node.js](https://nodejs.org)（含 npm）
+- 安装 [uv](https://docs.astral.sh/uv/)：`powershell -c "irm https://astral.sh/uv/install.ps1 | iex"`
+- 冒烟测试需 Mosquitto：`winget install EclipseFoundation.Mosquitto`（可选）
