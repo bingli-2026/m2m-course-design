@@ -2,7 +2,7 @@ export default function TopBar() {
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-outline-variant bg-surface-bright px-6">
       <span className="font-headline-sm text-headline-sm font-black uppercase tracking-wider text-on-background">
-        M2M_CONTROL_SYS
+        M2M 终端控制系统
       </span>
       <div className="flex items-center gap-4">
         <div className="relative hidden md:block">

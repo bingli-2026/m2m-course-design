@@ -23,7 +23,7 @@ export default function SideNav({
     <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r border-outline-variant bg-surface-bright py-6">
       <div className="mb-8 px-4">
         <h1 className="text-xl font-bold uppercase tracking-wider text-primary">
-          M2M_COMMAND
+          M2M 指令中心
         </h1>
         <p className="font-status-label text-status-label mt-1 text-secondary">
           系统状态: {statusText}
